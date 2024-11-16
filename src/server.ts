@@ -17,7 +17,7 @@ io.on("connection", (socket) => {
 
 server.listen(3001, () => {
     subscriber.on("message", (channel, data) => {
-        io.emit("bid", JSON.parse(data));
+        io.emit(channel, JSON.parse(data));
     });
     console.log("Server is running at 3001");
 });

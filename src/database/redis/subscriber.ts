@@ -10,6 +10,15 @@ const subscriberSingleton = () => {
             );
         }
     });
+    redis.subscribe("buyout", (err, count) => {
+        if (err) {
+            console.error("Failed to subscribe: %s", err.message);
+        } else {
+            console.log(
+                `Subscribed successfully! This client is currently subscribed to ${count} channels.`,
+            );
+        }
+    });
     return redis;
 };
 
