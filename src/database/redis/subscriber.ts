@@ -23,13 +23,13 @@ const subscriberSingleton = () => {
 };
 
 declare const globalThis: {
-    redisSubscriberGlobal: ReturnType<typeof subscriberSingleton>;
+    subscriberGlobal: ReturnType<typeof subscriberSingleton>;
 } & typeof global;
 
-const subscriber = globalThis.redisSubscriberGlobal ?? subscriberSingleton();
+const subscriber = globalThis.subscriberGlobal ?? subscriberSingleton();
 
 export default subscriber;
 
 if (process.env.NODE_ENV !== "production") {
-    globalThis.redisSubscriberGlobal = subscriber;
+    globalThis.subscriberGlobal = subscriber;
 }
