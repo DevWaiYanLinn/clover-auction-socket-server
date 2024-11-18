@@ -1,7 +1,8 @@
 import Redis from "ioredis";
-const subscriberSingleton = () => {
-    const redis = new Redis();
-    redis.subscribe("bid", (err, count) => {
+const adapterSingleton = () => {
+    const pub = new Redis();
+    const sub = pub.duplicate();
+    sub.subscribe("bid", (err, count) => {
         if (err) {
             console.error("Failed to subscribe: %s", err.message);
         } else {
@@ -10,7 +11,7 @@ const subscriberSingleton = () => {
             );
         }
     });
-    redis.subscribe("buyout", (err, count) => {
+    sub.subscribe("buyout", (err, count) => {
         if (err) {
             console.error("Failed to subscribe: %s", err.message);
         } else {
@@ -19,17 +20,17 @@ const subscriberSingleton = () => {
             );
         }
     });
-    return redis;
+    return { pub, sub };
 };
 
 declare const globalThis: {
-    subscriberGlobal: ReturnType<typeof subscriberSingleton>;
+    adapterGlobal: ReturnType<typeof adapterSingleton>;
 } & typeof global;
 
-const subscriber = globalThis.subscriberGlobal ?? subscriberSingleton();
+const adpater = globalThis.adapterGlobal ?? adapterSingleton();
 
-export default subscriber;
+export default adpater;
 
 if (process.env.NODE_ENV !== "production") {
-    globalThis.subscriberGlobal = subscriber;
+    globalThis.adapterGlobal = adpater;
 }
