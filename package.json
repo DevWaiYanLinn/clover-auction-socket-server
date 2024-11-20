@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "build/index.js",
   "scripts": {
+    "start": "node ./dist/server.js",
     "dev": "nodemon",
     "build": "webpack",
     "lint": "eslint src/**"

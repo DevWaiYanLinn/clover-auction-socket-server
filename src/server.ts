@@ -15,8 +15,16 @@ const io = new Server(server, {
     adapter: createAdapter(pub, sub),
 });
 
+app.get("/", (req, res) => {
+    res.json("hello world").status(200);
+});
+
+io.use((socket, next) => {
+    next();
+});
+
 io.on("connection", (socket) => {
-    console.log(`use is connected with ${socket.id}`);
+    console.log(`user is connected with ${socket.id}`);
 });
 
 sub.on("message", (channel, data) => {
@@ -24,7 +32,8 @@ sub.on("message", (channel, data) => {
 });
 
 const port = process.env.SERVER_PORT;
+const host = process.env.SERVER_HOST;
 
-server.listen(port, () => {
+server.listen(Number(port), host, 522, () => {
     console.log(`Server is running at ${port} ⚡︎`);
 });
