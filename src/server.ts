@@ -25,15 +25,21 @@ io.use((socket, next) => {
 
 io.on("connection", (socket) => {
     console.log(`user is connected with ${socket.id}`);
+
+    socket.on("disconnect", () => {
+        console.log(`disconnected ${socket.id}`);
+    });
 });
 
 sub.on("message", (channel, data) => {
-    io.emit(channel, JSON.parse(data));
+    const bid = JSON.parse(data);
+    const event = `${channel}-${bid.auction.id}`;
+    io.emit(event, bid);
 });
 
-const port = process.env.SERVER_PORT;
+const port = Number(process.env.SERVER_PORT);
 const host = process.env.SERVER_HOST;
 
-server.listen(Number(port), host, 522, () => {
+server.listen(port, host, 522, () => {
     console.log(`Server is running at ${port} ⚡︎`);
 });

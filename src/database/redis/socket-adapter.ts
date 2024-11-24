@@ -27,10 +27,10 @@ declare const globalThis: {
     adapterGlobal: ReturnType<typeof adapterSingleton>;
 } & typeof global;
 
-const adpater = globalThis.adapterGlobal ?? adapterSingleton();
+const adapter = globalThis.adapterGlobal ?? adapterSingleton();
 
-export default adpater;
+export default adapter;
 
 if (process.env.NODE_ENV !== "production") {
-    globalThis.adapterGlobal = adpater;
+    globalThis.adapterGlobal = adapter;
 }
