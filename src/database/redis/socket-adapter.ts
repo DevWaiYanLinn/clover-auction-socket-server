@@ -1,6 +1,10 @@
 import Redis from "ioredis";
 const adapterSingleton = () => {
-    const pub = new Redis();
+    const pub = new Redis({
+        host: process.env.REDIS_HOST!,
+        port: Number(process.env.REDIS_PORT!),
+        password: process.env.REDIS_PASSWORD!,
+    });
     const sub = pub.duplicate();
     sub.subscribe("bid", (err, count) => {
         if (err) {

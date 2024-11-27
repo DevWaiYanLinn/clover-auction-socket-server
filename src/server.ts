@@ -1,8 +1,8 @@
+import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import adapter from "./database/redis/socket-adapter";
-import "dotenv/config";
 import { createAdapter } from "@socket.io/redis-adapter";
 
 const app = express();
